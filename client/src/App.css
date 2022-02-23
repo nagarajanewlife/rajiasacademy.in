@@ -5,3 +5,9 @@
   justify-content: center;
   align-items: center;
 }
+.listemp {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+}
