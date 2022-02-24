@@ -1,4 +1,6 @@
 import react, { useState } from "react";
+import axios from "axios";
+import { Table, Tag, Space } from "antd";
 import "./App.css";
 function App() {
   const [name, setName] = useState("");
@@ -6,10 +8,69 @@ function App() {
   const [country, setCountry] = useState("");
   const [position, setPosition] = useState("");
   const [salary, setSalary] = useState(0);
+  const [employess, setEmployess] = useState([]);
 
   const addEmp = () => {
-    console.log(name);
+    axios
+      .post("http://127.0.0.1:3003/create", {
+        Name: name,
+        Age: age,
+        Country: country,
+        Position: position,
+        Salary: salary,
+      })
+      .then(() => {
+        console.log("sucess ");
+      });
   };
+  const getEmployess = () => {
+    axios.get("http://127.0.0.1:3003/employess").then((response) => {
+      setEmployess(response.data);
+      console.log(response.data);
+    });
+  };
+  const dataSource = [
+    {
+      key: "1",
+      name: "Mike",
+      age: 32,
+      address: "10 Downing Street",
+    },
+    {
+      key: "2",
+      name: "John",
+      age: 42,
+      address: "10 Downing Street",
+    },
+  ];
+
+  const columns = [
+    {
+      title: "Name",
+      dataIndex: "empname",
+      key: "empname",
+    },
+    {
+      title: "Age",
+      dataIndex: "Age",
+      key: "Age",
+    },
+    {
+      title: "Country",
+      dataIndex: "country",
+      key: "country",
+    },
+    {
+      title: "Position",
+      dataIndex: "position",
+      key: "position",
+    },
+    {
+      title: "Salary",
+      dataIndex: "salary",
+      key: "salary",
+    },
+  ];
   return (
     <div className="info">
       <form onSubmit={addEmp}>
@@ -57,6 +118,8 @@ function App() {
 
         <button type="submit"> Add Employee</button>
       </form>
+      <button onClick={getEmployess}>Show Emp</button>
+      <Table dataSource={employess} columns={columns} />;
     </div>
   );
 }
