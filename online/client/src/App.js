@@ -1,6 +1,7 @@
 import react, { useState } from "react";
 import axios from "axios";
 import { Table, Tag, Space } from "antd";
+import { DeleteOutlined } from "@ant-design/icons";
 import "./App.css";
 function App() {
   const [name, setName] = useState("");
@@ -29,22 +30,23 @@ function App() {
       console.log(response.data);
     });
   };
-  const dataSource = [
-    {
-      key: "1",
-      name: "Mike",
-      age: 32,
-      address: "10 Downing Street",
-    },
-    {
-      key: "2",
-      name: "John",
-      age: 42,
-      address: "10 Downing Street",
-    },
-  ];
+  const onDelete = (id) => {
+    console.log(id);
+    axios.delete(`http://127.0.0.1:3003/delete/${id}`).then((response) => {
+      setEmployess(
+        employess.filter((row) => {
+          return row.empid !== id;
+        })
+      );
+    });
+  };
 
   const columns = [
+    {
+      title: "Emp ID",
+      dataIndex: "empid",
+      key: "empid",
+    },
     {
       title: "Name",
       dataIndex: "empname",
@@ -69,6 +71,22 @@ function App() {
       title: "Salary",
       dataIndex: "salary",
       key: "salary",
+    },
+    {
+      title: "Action",
+      key: "Action",
+      render: (record) => {
+        return (
+          <>
+            <DeleteOutlined
+              onClick={() => {
+                onDelete(record.empid);
+              }}
+              style={{ color: "red", cursor: "pointer", fontSize: 23 }}
+            />
+          </>
+        );
+      },
     },
   ];
   return (

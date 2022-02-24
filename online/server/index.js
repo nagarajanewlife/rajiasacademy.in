@@ -38,6 +38,17 @@ app.get("/employess", (req, res) => {
     }
   });
 });
+
+app.delete("/delete/:id", (req, res) => {
+  const id = req.params.id;
+  DB.query("delete from emp where empid=?", id, (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(result);
+    }
+  });
+});
 app.listen(3003, () => {
   console.log("server Running ...");
 });
