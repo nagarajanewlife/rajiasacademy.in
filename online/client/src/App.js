@@ -29,6 +29,7 @@ function App() {
     {
       Object.keys(selectValue).length !== 0 &&
         form.setFieldsValue({
+          id: selectValue.data.empid,
           name: selectValue.data.empname,
           age: selectValue.data.Age,
           position: selectValue.data.position,
@@ -86,9 +87,21 @@ function App() {
     },
   };
   const onFinish = (values) => {
-    console.log("values", values.user.name);
-    setName(values.user.name);
-    setAge(values.user.Age);
+    console.log("update values", values);
+    axios
+      .put("http://127.0.0.1:3003/update", {
+        Id: values.id,
+        Name: values.name,
+        Age: values.age,
+        Country: values.country,
+        Position: values.position,
+        Salary: values.salary,
+      })
+      .then(() => {
+        console.log("sucess ");
+        setUpdateVisible(false);
+        getEmployess();
+      });
   };
   const validateMessages = {
     required: "${label} is required!",
@@ -222,6 +235,9 @@ function App() {
           onFinish={onFinish}
           validateMessages={validateMessages}
         >
+          <Form.Item name="id" label="ID">
+            <Input disabled />
+          </Form.Item>
           <Form.Item name="name" label="Name">
             <Input />
           </Form.Item>

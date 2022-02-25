@@ -39,6 +39,27 @@ app.get("/employess", (req, res) => {
   });
 });
 
+app.put("/update", (req, res) => {
+  console.log(req.body);
+  const ID = req.body.Id;
+  const Name = req.body.Name;
+  const Age = req.body.Age;
+  const Country = req.body.Country;
+  const Position = req.body.Position;
+  const Salary = req.body.Salary;
+  DB.query(
+    `update emp set empname='${Name}',Age=${Age}, country='${Country}' ,position='${Position}', salary=${Salary} where empid=${ID}`,
+    [Name, Age, Country, Position, Salary, ID],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send(result);
+      }
+    }
+  );
+});
+
 app.delete("/delete/:id", (req, res) => {
   const id = req.params.id;
   DB.query("delete from emp where empid=?", id, (err, result) => {
