@@ -1,18 +1,34 @@
-import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Layout from "./pages/Layout";
+import Home from "./pages/Home";
+import AddStudent from "./pages/AddStudent";
+import AddStaff from "./pages/AddStaff";
+import Exam from "./pages/Exam";
+import Block from "./pages/Block";
+import Login from "./pages/frontpage/login";
+import OnlinTest from "./pages/frontpage/Exam.jsx";
+import NoPage from "./pages/NoPage";
 import "antd/dist/antd.css";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById("root")
-);
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/exam" element={<OnlinTest />} />
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+        <Route path="/Admin" element={<Layout />}>
+          <Route path="/Admin/AddStudent" element={<AddStudent />} />
+          <Route path="/Admin/AddStaff" element={<AddStaff />} />
+          <Route path="/Admin/Exam" element={<Exam />} />
+          <Route path="/Admin/Block" element={<Block />} />
+
+          <Route path="*" element={<NoPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+ReactDOM.render(<App />, document.getElementById("root"));
